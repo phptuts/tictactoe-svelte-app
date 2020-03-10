@@ -4,6 +4,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import replace from '@rollup/plugin-replace';
+import ghpages from 'gh-pages';
 
 const production = !process.env.ROLLUP_WATCH;
 const devUrl = 'http://localhost:3000';
@@ -58,7 +59,11 @@ export default {
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
-    production && terser()
+    production &&
+      terser() &&
+      ghpages.publish('public', () => {
+        console.log('uploaded to github');
+      })
   ],
   watch: {
     clearScreen: false
