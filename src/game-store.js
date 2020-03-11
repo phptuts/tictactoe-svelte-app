@@ -1,7 +1,7 @@
 import { readable } from 'svelte/store';
 
 export default new readable(undefined, (set) => {
-  const connection = new WebSocket('ws://localhost:2222');
+  const connection = new WebSocket(process.env.webSocketUrlLocal);
   connection.onopen = function() {
     console.log('connected');
   };

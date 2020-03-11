@@ -7,8 +7,11 @@ import replace from '@rollup/plugin-replace';
 import ghpages from 'gh-pages';
 
 const production = !process.env.ROLLUP_WATCH;
-const devUrl = 'http://localhost:3000';
-const prodUrl = 'http://tictactoeapi.noahglaser.net';
+const devUrl = 'http://localhost:4001';
+const prodUrl = 'https://tictactoe.noahglaser.net';
+const webSocketUrlLocal = production
+  ? 'wss://tictactoe.noahglaser.net/ws'
+  : 'ws://localhost:2222';
 
 const url = production ? prodUrl : devUrl;
 console.log(url, 'url');
@@ -24,7 +27,8 @@ export default {
     replace({
       process: JSON.stringify({
         env: {
-          url
+          url,
+          webSocketUrlLocal
         }
       })
     }),
