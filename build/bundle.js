@@ -402,7 +402,7 @@ var app = (function () {
     }
 
     var gameStore = new readable(undefined, (set) => {
-      const connection = new WebSocket('ws://localhost:2222');
+      const connection = new WebSocket({"env":{"url":"http://tictactoeapi.noahglaser.net","webSocketUrlLocal":"ws://localhost:2222"}}.env.webSocketUrlLocal);
       connection.onopen = function() {
         console.log('connected');
       };
@@ -413,7 +413,7 @@ var app = (function () {
 
     const nextMove = async (space) => {
       try {
-        const response = await fetch(`${{"env":{"url":"http://tictactoeapi.noahglaser.net"}}.env.url}/next-turn/${space}`);
+        const response = await fetch(`${{"env":{"url":"http://tictactoeapi.noahglaser.net","webSocketUrlLocal":"ws://localhost:2222"}}.env.url}/next-turn/${space}`);
         const message = await response.json();
         return message.errorMessage;
       } catch (err) {
@@ -424,7 +424,7 @@ var app = (function () {
 
     const resetGame = async () => {
       try {
-        await fetch(`${{"env":{"url":"http://tictactoeapi.noahglaser.net"}}.env.url}/reset`);
+        await fetch(`${{"env":{"url":"http://tictactoeapi.noahglaser.net","webSocketUrlLocal":"ws://localhost:2222"}}.env.url}/reset`);
       } catch (e) {
         console.log(e);
       }
