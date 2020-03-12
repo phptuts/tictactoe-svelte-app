@@ -409,6 +409,10 @@ var app = (function () {
       connection.onmessage = (event) => {
         set(JSON.parse(event.data));
       };
+
+      connection.onclose = (e) => {
+        console.log(e, 'closed');
+      };
     });
 
     const nextMove = async (space) => {
