@@ -458,7 +458,7 @@ var app = (function () {
           set(JSON.parse(message));
           message = undefined;
         }
-      }, 20);
+      }, 5);
     });
 
     var gameStore = {
