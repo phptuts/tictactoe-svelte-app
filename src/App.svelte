@@ -5,11 +5,16 @@
   let board = ["", "", "", "", "", "", "", "", ""];
   let nextPlayer;
   let winner;
+  let numberOfPeeps = 0;
   gameStore.subscribe(state => {
     if (!state) {
       return;
     }
-    ({ board, nextPlayer, winner, errorMessage } = state);
+    console.log(state);
+    winner = state.winner;
+    nextPlayer = state.nextPlayer;
+    board = state.board;
+    numberOfPeeps = state.numberOfPeeps;
   });
   let errorMessage = "";
 
@@ -17,6 +22,11 @@
     if (winner) {
       return;
     }
+
+    if (!gameStore.isConnected) {
+      gameStore.connect();
+    }
+
     errorMessage = await nextMove(space);
   }
 
@@ -48,10 +58,12 @@
     cursor: pointer;
     outline: none;
   }
+  
 </style>
 
 <main>
   <h1>Tic Tac Toe</h1>
+  <h2>Number of poeple playing: {numberOfPeeps}</h2>
   {#if winner == 'TIE'}
     <h2>Tie Game!!!</h2>
   {:else if winner}
@@ -82,4 +94,5 @@
   {#if errorMessage}
     <p class="errorMessage">{errorMessage}</p>
   {/if}
+
 </main>

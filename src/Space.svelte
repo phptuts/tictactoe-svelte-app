@@ -2,6 +2,9 @@
   export let space = "";
   export let winner = "";
   $: won = (winner !== "") & (space === winner);
+  $: gameOver = winner !== null && winner !== undefined && winner !== "";
+  $: console.log(winner);
+  $: console.log(gameOver);
 </script>
 
 <style>
@@ -20,6 +23,11 @@
   .winner {
     color: rebeccapurple;
   }
+  .disabled {
+    cursor: not-allowed !important;
+  }
 </style>
 
-<div class:winner={won} on:click class="player">{space}</div>
+<div class:disabled={gameOver} class:winner={won} on:click class="player">
+  {space}
+</div>
