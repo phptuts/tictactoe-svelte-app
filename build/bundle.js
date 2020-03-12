@@ -284,16 +284,21 @@ var app = (function () {
     		c() {
     			div = element("div");
     			t = text(/*space*/ ctx[0]);
-    			attr(div, "class", "player svelte-19ksopy");
+    			attr(div, "class", "player svelte-qtbcbs");
+    			toggle_class(div, "disabled", /*gameOver*/ ctx[2]);
     			toggle_class(div, "winner", /*won*/ ctx[1]);
     		},
     		m(target, anchor) {
     			insert(target, div, anchor);
     			append(div, t);
-    			dispose = listen(div, "click", /*click_handler*/ ctx[3]);
+    			dispose = listen(div, "click", /*click_handler*/ ctx[4]);
     		},
     		p(ctx, [dirty]) {
     			if (dirty & /*space*/ 1) set_data(t, /*space*/ ctx[0]);
+
+    			if (dirty & /*gameOver*/ 4) {
+    				toggle_class(div, "disabled", /*gameOver*/ ctx[2]);
+    			}
 
     			if (dirty & /*won*/ 2) {
     				toggle_class(div, "winner", /*won*/ ctx[1]);
@@ -318,24 +323,37 @@ var app = (function () {
 
     	$$self.$set = $$props => {
     		if ("space" in $$props) $$invalidate(0, space = $$props.space);
-    		if ("winner" in $$props) $$invalidate(2, winner = $$props.winner);
+    		if ("winner" in $$props) $$invalidate(3, winner = $$props.winner);
     	};
 
     	let won;
+    	let gameOver;
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*winner, space*/ 5) {
+    		if ($$self.$$.dirty & /*winner, space*/ 9) {
     			 $$invalidate(1, won = winner !== "" & space === winner);
+    		}
+
+    		if ($$self.$$.dirty & /*winner*/ 8) {
+    			 $$invalidate(2, gameOver = winner !== null && winner !== undefined && winner !== "");
+    		}
+
+    		if ($$self.$$.dirty & /*winner*/ 8) {
+    			 console.log(winner);
+    		}
+
+    		if ($$self.$$.dirty & /*gameOver*/ 4) {
+    			 console.log(gameOver);
     		}
     	};
 
-    	return [space, won, winner, click_handler];
+    	return [space, won, gameOver, winner, click_handler];
     }
 
     class Space extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance, create_fragment, safe_not_equal, { space: 0, winner: 2 });
+    		init(this, options, instance, create_fragment, safe_not_equal, { space: 0, winner: 3 });
     	}
     }
 
@@ -495,7 +513,7 @@ var app = (function () {
     	};
     }
 
-    // (62:19) 
+    // (69:19) 
     function create_if_block_3(ctx) {
     	let h2;
     	let t0;
@@ -524,7 +542,7 @@ var app = (function () {
     	};
     }
 
-    // (60:2) {#if winner == 'TIE'}
+    // (67:2) {#if winner == 'TIE'}
     function create_if_block_2(ctx) {
     	let h2;
 
@@ -543,7 +561,7 @@ var app = (function () {
     	};
     }
 
-    // (84:2) {#if winner}
+    // (91:2) {#if winner}
     function create_if_block_1(ctx) {
     	let button;
     	let dispose;
@@ -552,7 +570,7 @@ var app = (function () {
     		c() {
     			button = element("button");
     			button.textContent = "New Game";
-    			attr(button, "class", "svelte-1hql8qn");
+    			attr(button, "class", "svelte-1e101xf");
     		},
     		m(target, anchor) {
     			insert(target, button, anchor);
@@ -566,7 +584,7 @@ var app = (function () {
     	};
     }
 
-    // (87:2) {#if errorMessage}
+    // (94:2) {#if errorMessage}
     function create_if_block(ctx) {
     	let p;
     	let t;
@@ -574,15 +592,15 @@ var app = (function () {
     	return {
     		c() {
     			p = element("p");
-    			t = text(/*errorMessage*/ ctx[3]);
-    			attr(p, "class", "errorMessage svelte-1hql8qn");
+    			t = text(/*errorMessage*/ ctx[4]);
+    			attr(p, "class", "errorMessage svelte-1e101xf");
     		},
     		m(target, anchor) {
     			insert(target, p, anchor);
     			append(p, t);
     		},
     		p(ctx, dirty) {
-    			if (dirty & /*errorMessage*/ 8) set_data(t, /*errorMessage*/ ctx[3]);
+    			if (dirty & /*errorMessage*/ 16) set_data(t, /*errorMessage*/ ctx[4]);
     		},
     		d(detaching) {
     			if (detaching) detach(p);
@@ -594,20 +612,24 @@ var app = (function () {
     	let main;
     	let h1;
     	let t1;
+    	let h2;
     	let t2;
-    	let div0;
     	let t3;
     	let t4;
     	let t5;
-    	let div1;
+    	let div0;
     	let t6;
     	let t7;
     	let t8;
-    	let div2;
+    	let div1;
     	let t9;
     	let t10;
     	let t11;
+    	let div2;
     	let t12;
+    	let t13;
+    	let t14;
+    	let t15;
     	let current;
 
     	function select_block_type(ctx, dirty) {
@@ -626,7 +648,7 @@ var app = (function () {
     			}
     		});
 
-    	space0.$on("click", /*click_handler*/ ctx[5]);
+    	space0.$on("click", /*click_handler*/ ctx[6]);
 
     	const space1 = new Space({
     			props: {
@@ -635,7 +657,7 @@ var app = (function () {
     			}
     		});
 
-    	space1.$on("click", /*click_handler_1*/ ctx[6]);
+    	space1.$on("click", /*click_handler_1*/ ctx[7]);
 
     	const space2 = new Space({
     			props: {
@@ -644,7 +666,7 @@ var app = (function () {
     			}
     		});
 
-    	space2.$on("click", /*click_handler_2*/ ctx[7]);
+    	space2.$on("click", /*click_handler_2*/ ctx[8]);
 
     	const space3 = new Space({
     			props: {
@@ -653,7 +675,7 @@ var app = (function () {
     			}
     		});
 
-    	space3.$on("click", /*click_handler_3*/ ctx[8]);
+    	space3.$on("click", /*click_handler_3*/ ctx[9]);
 
     	const space4 = new Space({
     			props: {
@@ -662,7 +684,7 @@ var app = (function () {
     			}
     		});
 
-    	space4.$on("click", /*click_handler_4*/ ctx[9]);
+    	space4.$on("click", /*click_handler_4*/ ctx[10]);
 
     	const space5 = new Space({
     			props: {
@@ -671,7 +693,7 @@ var app = (function () {
     			}
     		});
 
-    	space5.$on("click", /*click_handler_5*/ ctx[10]);
+    	space5.$on("click", /*click_handler_5*/ ctx[11]);
 
     	const space6 = new Space({
     			props: {
@@ -680,7 +702,7 @@ var app = (function () {
     			}
     		});
 
-    	space6.$on("click", /*click_handler_6*/ ctx[11]);
+    	space6.$on("click", /*click_handler_6*/ ctx[12]);
 
     	const space7 = new Space({
     			props: {
@@ -689,7 +711,7 @@ var app = (function () {
     			}
     		});
 
-    	space7.$on("click", /*click_handler_7*/ ctx[12]);
+    	space7.$on("click", /*click_handler_7*/ ctx[13]);
 
     	const space8 = new Space({
     			props: {
@@ -698,9 +720,9 @@ var app = (function () {
     			}
     		});
 
-    	space8.$on("click", /*click_handler_8*/ ctx[13]);
+    	space8.$on("click", /*click_handler_8*/ ctx[14]);
     	let if_block1 = /*winner*/ ctx[2] && create_if_block_1();
-    	let if_block2 = /*errorMessage*/ ctx[3] && create_if_block(ctx);
+    	let if_block2 = /*errorMessage*/ ctx[4] && create_if_block(ctx);
 
     	return {
     		c() {
@@ -708,70 +730,80 @@ var app = (function () {
     			h1 = element("h1");
     			h1.textContent = "Tic Tac Toe";
     			t1 = space();
+    			h2 = element("h2");
+    			t2 = text("Number of poeple playing: ");
+    			t3 = text(/*numberOfPeeps*/ ctx[3]);
+    			t4 = space();
     			if_block0.c();
-    			t2 = space();
+    			t5 = space();
     			div0 = element("div");
     			create_component(space0.$$.fragment);
-    			t3 = space();
+    			t6 = space();
     			create_component(space1.$$.fragment);
-    			t4 = space();
+    			t7 = space();
     			create_component(space2.$$.fragment);
-    			t5 = space();
+    			t8 = space();
     			div1 = element("div");
     			create_component(space3.$$.fragment);
-    			t6 = space();
+    			t9 = space();
     			create_component(space4.$$.fragment);
-    			t7 = space();
+    			t10 = space();
     			create_component(space5.$$.fragment);
-    			t8 = space();
+    			t11 = space();
     			div2 = element("div");
     			create_component(space6.$$.fragment);
-    			t9 = space();
-    			create_component(space7.$$.fragment);
-    			t10 = space();
-    			create_component(space8.$$.fragment);
-    			t11 = space();
-    			if (if_block1) if_block1.c();
     			t12 = space();
+    			create_component(space7.$$.fragment);
+    			t13 = space();
+    			create_component(space8.$$.fragment);
+    			t14 = space();
+    			if (if_block1) if_block1.c();
+    			t15 = space();
     			if (if_block2) if_block2.c();
-    			attr(div0, "class", "row svelte-1hql8qn");
-    			attr(div1, "class", "row svelte-1hql8qn");
-    			attr(div2, "class", "row svelte-1hql8qn");
-    			attr(main, "class", "svelte-1hql8qn");
+    			attr(div0, "class", "row svelte-1e101xf");
+    			attr(div1, "class", "row svelte-1e101xf");
+    			attr(div2, "class", "row svelte-1e101xf");
+    			attr(main, "class", "svelte-1e101xf");
     		},
     		m(target, anchor) {
     			insert(target, main, anchor);
     			append(main, h1);
     			append(main, t1);
+    			append(main, h2);
+    			append(h2, t2);
+    			append(h2, t3);
+    			append(main, t4);
     			if_block0.m(main, null);
-    			append(main, t2);
+    			append(main, t5);
     			append(main, div0);
     			mount_component(space0, div0, null);
-    			append(div0, t3);
+    			append(div0, t6);
     			mount_component(space1, div0, null);
-    			append(div0, t4);
+    			append(div0, t7);
     			mount_component(space2, div0, null);
-    			append(main, t5);
+    			append(main, t8);
     			append(main, div1);
     			mount_component(space3, div1, null);
-    			append(div1, t6);
+    			append(div1, t9);
     			mount_component(space4, div1, null);
-    			append(div1, t7);
+    			append(div1, t10);
     			mount_component(space5, div1, null);
-    			append(main, t8);
+    			append(main, t11);
     			append(main, div2);
     			mount_component(space6, div2, null);
-    			append(div2, t9);
+    			append(div2, t12);
     			mount_component(space7, div2, null);
-    			append(div2, t10);
+    			append(div2, t13);
     			mount_component(space8, div2, null);
-    			append(main, t11);
+    			append(main, t14);
     			if (if_block1) if_block1.m(main, null);
-    			append(main, t12);
+    			append(main, t15);
     			if (if_block2) if_block2.m(main, null);
     			current = true;
     		},
     		p(ctx, [dirty]) {
+    			if (!current || dirty & /*numberOfPeeps*/ 8) set_data(t3, /*numberOfPeeps*/ ctx[3]);
+
     			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block0) {
     				if_block0.p(ctx, dirty);
     			} else {
@@ -780,7 +812,7 @@ var app = (function () {
 
     				if (if_block0) {
     					if_block0.c();
-    					if_block0.m(main, t2);
+    					if_block0.m(main, t5);
     				}
     			}
 
@@ -827,14 +859,14 @@ var app = (function () {
     				} else {
     					if_block1 = create_if_block_1();
     					if_block1.c();
-    					if_block1.m(main, t12);
+    					if_block1.m(main, t15);
     				}
     			} else if (if_block1) {
     				if_block1.d(1);
     				if_block1 = null;
     			}
 
-    			if (/*errorMessage*/ ctx[3]) {
+    			if (/*errorMessage*/ ctx[4]) {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
     				} else {
@@ -898,13 +930,18 @@ var app = (function () {
     	let board = ["", "", "", "", "", "", "", "", ""];
     	let nextPlayer;
     	let winner;
+    	let numberOfPeeps = 0;
 
     	gameStore.subscribe(state => {
     		if (!state) {
     			return;
     		}
 
-    		$$invalidate(0, { board, nextPlayer, winner, errorMessage } = state, board, $$invalidate(1, nextPlayer), $$invalidate(2, winner), $$invalidate(3, errorMessage));
+    		console.log(state);
+    		$$invalidate(2, winner = state.winner);
+    		$$invalidate(1, nextPlayer = state.nextPlayer);
+    		$$invalidate(0, board = state.board);
+    		$$invalidate(3, numberOfPeeps = state.numberOfPeeps);
     	});
 
     	let errorMessage = "";
@@ -918,7 +955,7 @@ var app = (function () {
     			gameStore.connect();
     		}
 
-    		$$invalidate(3, errorMessage = await nextMove(space));
+    		$$invalidate(4, errorMessage = await nextMove(space));
     	}
 
     	const click_handler = () => takeSpace(0);
@@ -935,6 +972,7 @@ var app = (function () {
     		board,
     		nextPlayer,
     		winner,
+    		numberOfPeeps,
     		errorMessage,
     		takeSpace,
     		click_handler,
